@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32929.385
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IEC60335Develop", "IEC60335Develop.csproj", "{EA976795-4C8A-4122-9EA0-D4770F10EEAB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EA976795-4C8A-4122-9EA0-D4770F10EEAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA976795-4C8A-4122-9EA0-D4770F10EEAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA976795-4C8A-4122-9EA0-D4770F10EEAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA976795-4C8A-4122-9EA0-D4770F10EEAB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D81EDC1C-41ED-45FA-9C53-D566827A3935}
+	EndGlobalSection
+EndGlobal

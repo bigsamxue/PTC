@@ -1,0 +1,59 @@
+﻿<UserControl x:Class="IEC60335Develop.Views.MeasureView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vm="clr-namespace:IEC60335Develop.ViewModels"
+             xmlns:oxyplot="http://oxyplot.org/wpf"
+             xmlns:local="clr-namespace:IEC60335Develop.Views"
+             xmlns:wpf="clr-namespace:ScottPlot.WPF;assembly=ScottPlot.WPF"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="1200">
+    <UserControl.Resources>
+        <FontFamily x:Key="IconFont">
+            /Fonts/SourceHanSansCN-Normal.otf #Source Han Sans CN
+        </FontFamily>
+    </UserControl.Resources>
+    <UserControl.DataContext>
+        <vm:MeasureViewModel/>
+    </UserControl.DataContext>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition/>
+            <ColumnDefinition  Width="300"/>
+        </Grid.ColumnDefinitions>
+        <Border >
+            <UniformGrid Rows="9" HorizontalAlignment="Center">
+                <TextBlock/>
+                <Button  Content="保存路径" Width="150" Height="50" FontFamily="{StaticResource IconFont}" FontSize="24" Command="{Binding SaveFile}" Margin="0,8,0,0" VerticalAlignment="Top"/>
+                <TextBlock/>
+                <Button  Content="开始" Width="150" Height="50" FontFamily="{StaticResource IconFont}" FontSize="24" Command="{Binding StartCommand}"/>
+                <TextBlock/>
+                <Button Content="停止" Width="150" Height="50" FontFamily="{StaticResource IconFont}" FontSize="24" Command="{Binding StopCommand}"/>
+                <TextBlock/>
+                <Button Content="复位" Width="150" Height="50" FontFamily="{StaticResource IconFont}" FontSize="24" Command="{Binding ResetCommand}"/>
+                <TextBlock/>
+            </UniformGrid>
+        </Border>
+        <Border  Grid.Column="2">
+            <UniformGrid Rows="12">
+                <TextBlock Width="200" Height="50" Text="电压（V）" FontSize="30" FontFamily="{StaticResource IconFont}" HorizontalAlignment="Center"/>
+                <TextBox Width="200" Height="50" FontSize="30" FontFamily="{StaticResource IconFont}" Text="{Binding WTMeasureModel.VoltageValueRT, Mode=TwoWay}" HorizontalAlignment="Center" IsReadOnly="True" />
+                <TextBlock Height="60"/>
+                <TextBlock Width="200" Height="50" Text="电流（A）" FontSize="30" FontFamily="{StaticResource IconFont}" HorizontalAlignment="Center"/>
+                <TextBox Width="200" Height="50" FontSize="30" FontFamily="{StaticResource IconFont}" Text="{Binding WTMeasureModel.CurrentValueRT,Mode=TwoWay}" HorizontalAlignment="Center" IsReadOnly="True"/> <!--直接绑WTMeasureModel.CurrentValueRT也可-->
+                <TextBlock Height="60"/>
+                <TextBlock Width="200" Height="50" Text="功率（W）" FontSize="30" FontFamily="{StaticResource IconFont}"  HorizontalAlignment="Center"/>
+                <TextBox DataContext="{Binding WTMeasureModel}" Width="200" Height="50" FontSize="30" FontFamily="{StaticResource IconFont}" Text="{Binding PowerValueRT,Mode=TwoWay}" HorizontalAlignment="Center" IsReadOnly="True"/> <!--TextBox绑DataContext方式更容易理解-->
+                <TextBlock Height="60"/>
+                <TextBlock Width="200" Height="50" Text="最大功率（W）" FontSize="30" FontFamily="{StaticResource IconFont}" HorizontalAlignment="Center"/>
+                <TextBox Width="200" Height="50" FontSize="30" FontFamily="{StaticResource IconFont}" Text="{Binding WTMeasureModel.PowerMaxValue,Mode=TwoWay}" HorizontalAlignment="Center" IsReadOnly="True"/>
+                <TextBlock/>
+            </UniformGrid>
+        </Border>
+        <Border Grid.Column="1">
+            <oxyplot:PlotView Model="{Binding Model}" />
+        </Border>
+    </Grid>
+</UserControl>
