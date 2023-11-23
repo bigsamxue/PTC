@@ -98,7 +98,7 @@ namespace IEC60335Develop.ViewModels {
                 ((LineSeries)lineSer).Points.Clear();
 
             }
-            //清除完曲线之后，重新刷新坐标轴
+            //清除完曲线之后，重新刷新坐标轴66
             dateTimeAxis2 = new DateTimeAxis() { MaximumRange = 0.1, };
             dateTimeAxis2.Title = "Time";
             ModelPowerSort.InvalidatePlot(true);
