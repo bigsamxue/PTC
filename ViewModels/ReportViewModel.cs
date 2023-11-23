@@ -140,9 +140,22 @@ namespace IEC60335Develop.ViewModels {
                 ElementsCollection.Add(elements);
             }
             LineSeries Series1Copy = new LineSeries();
-            Series1Copy = Series1;
+            var tempPoints = Series1.Points.ToArray();
+            Series1.Points.Clear();
+            for (int i = 0; i < tempPoints.Length; i++) {
+                Series1Copy.Points.Add(tempPoints[i]);
+            }
+            LineSeries Series2Copy = new LineSeries();
+            var tempPoints2 = Series2.Points.ToArray();
+            Series2.Points.Clear();
+            for (int i = 0; i < tempPoints2.Length; i++) {
+                Series2Copy.Points.Add(tempPoints2[i]);
+            }
             ModelCurrentSort.Series.Add(Series1Copy);
-            ModelPowerSort.Series.Add(Series2);
+            ModelPowerSort.Series.Add(Series2Copy);
+
+            ModelCurrentSort.InvalidatePlot(true);
+            ModelPowerSort.InvalidatePlot(true);
 
             //排序结果输出csv
             SavePathSorted = MeasureViewModel.SavePath.Substring(0, MeasureViewModel.SavePath.Length - 4) + "Sorted.csv";
