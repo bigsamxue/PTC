@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\30056981\Desktop\Task\WorkSpace\PTC_IEC60335\PTC_IEC60335\obj\Debug\
+D:\功率计资料\WorkSpace\PTC_IEC60335\obj\Debug\
 IEC60335Develop
 none
 false
 DEBUG;TRACE
-C:\Users\30056981\Desktop\Task\WorkSpace\PTC_IEC60335\PTC_IEC60335\App.xaml
+D:\功率计资料\WorkSpace\PTC_IEC60335\App.xaml
 51416475487
 
-22-628749369
-132308627932
+211744439806
+1332065557785
 MainWindow.xaml;Views\ConnectionView.xaml;Views\MeasureView.xaml;Views\ReportView.xaml;Views\SettingView.xaml;
 
-True
+False
 

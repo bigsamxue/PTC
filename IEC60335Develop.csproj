@@ -93,7 +93,7 @@
     </Reference>
     <Reference Include="TmctlAPINet64, Version=6.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\C#\OSAsystem\TmctlAPINet64.dll</HintPath>
+      <HintPath>packages\TMCTL\TmctlAPINet64.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
