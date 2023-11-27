@@ -90,7 +90,7 @@ namespace IEC60335Develop.ViewModels {
             dialog.SelectedPath = @"D:";
             dialog.ShowDialog();
             RelativePath = dialog.SelectedPath;
-           
+
             //MessageBox.Show(RelativePath);//测试用
 
         }
@@ -203,15 +203,25 @@ namespace IEC60335Develop.ViewModels {
                 var powerValue = ConnectionViewModel.WT1800.RemoteCTRL(":NUMeric:HSPeed:VALue? " + (double.Parse(SettingViewModel.ElementCopyToMesViewModel.Substring(7)) + 2 + 2 * (double.Parse(SettingViewModel.ElementCopyToMesViewModel.Substring(7)) - 1)).ToString());
                 var powerMaxValue = ConnectionViewModel.WT1800.RemoteCTRL(":NUMERIC:HSPEED:MAXIMUM? " + (double.Parse(SettingViewModel.ElementCopyToMesViewModel.Substring(7)) + 2 + 2 * (double.Parse(SettingViewModel.ElementCopyToMesViewModel.Substring(7)) - 1)).ToString());
 
-                try
-                {
-                    var value = Array.ConvertAll<string, double>(voltageValue.Split(','), s => double.Parse(s));
-                }
-                catch (FormatException)
-                {
+
+                string[] oriString = voltageValue.Split(',');
+                double tryDouble;
+                bool isNotNaN;
+                isNotNaN = double.TryParse(oriString[2], out tryDouble);
+                if (!isNotNaN) {
                     MessageBox.Show("awuluan");
                     return;
                 }
+                var value = Array.ConvertAll<string, double>(oriString, s => double.Parse(s));
+
+
+                //try {
+                //    var value = Array.ConvertAll<string, double>(voltageValue.Split(','), s => double.Parse(s));
+                //}
+                //catch (FormatException) {
+                //    MessageBox.Show("awuluan");
+                //    return;
+                //}
 
                 var voltageValueArray = Array.ConvertAll<string, double>(voltageValue.Split(','), s => double.Parse(s));
                 var currentValueArray = Array.ConvertAll<string, double>(currentValue.Split(','), s => double.Parse(s));
@@ -241,7 +251,7 @@ namespace IEC60335Develop.ViewModels {
                 Model.InvalidatePlot(true);
             }
         }
-      
+
     }
 }
 
