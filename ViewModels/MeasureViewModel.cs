@@ -139,14 +139,15 @@ namespace IEC60335Develop.ViewModels {
             if (!File.Exists(App.SavePath))
                 File.Create(App.SavePath).Close();
 
-            StreamWriter sw = new StreamWriter(App.SavePath, true, Encoding.UTF8);
-            string dataHeader = "电压,电流,功率";
-            sw.WriteLine(dataHeader);
-            for (int j = 0; j < WTMeasureModel.VoltageValue.Count; j++) {
-                sw.WriteLine($"{WTMeasureModel.VoltageValue[j]},{WTMeasureModel.CurrentValue[j]},{WTMeasureModel.PowerValue[j]}");
+            using(StreamWriter sw = new StreamWriter(App.SavePath, true, Encoding.UTF8)){
+                string dataHeader = "电压,电流,功率";
+                sw.WriteLine(dataHeader);
+                for (int j = 0; j < WTMeasureModel.VoltageValue.Count; j++) {
+                    sw.WriteLine($"{WTMeasureModel.VoltageValue[j]},{WTMeasureModel.CurrentValue[j]},{WTMeasureModel.PowerValue[j]}");
+                }
+                sw.Flush();
+                sw.Close();
             }
-            sw.Flush();
-            sw.Close();
         }
 
         private void StartClick() {
