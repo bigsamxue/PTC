@@ -13,6 +13,7 @@ namespace IEC60335Develop.Models {
         public List<double> VoltageValue { get; set; }
         public List<double> CurrentValue { get; set; }
         public List<double> PowerValue { get; set; }
+        public List<double> TimeStamp { get; set; }
 
         private string _powerMaxValue;
         public string PowerMaxValue {

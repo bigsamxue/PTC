@@ -81,7 +81,7 @@ namespace IEC60335Develop.ViewModels {
             Model.Series.Add(Series1);
             Model.Series.Add(Series2);
 
-            RelativePath = App.DefaultFolderPath+@"/File Folder";
+            RelativePath = App.DefaultFolderPath + @"/File Folder";
 
 
         }
@@ -139,7 +139,7 @@ namespace IEC60335Develop.ViewModels {
             if (!File.Exists(App.SavePath))
                 File.Create(App.SavePath).Close();
 
-            using(StreamWriter sw = new StreamWriter(App.SavePath, true, Encoding.UTF8)){
+            using (StreamWriter sw = new StreamWriter(App.SavePath, true, Encoding.UTF8)) {
                 string dataHeader = "电压,电流,功率";
                 sw.WriteLine(dataHeader);
                 for (int j = 0; j < WTMeasureModel.VoltageValue.Count; j++) {
@@ -156,6 +156,8 @@ namespace IEC60335Develop.ViewModels {
             WTMeasureModel.VoltageValue = new List<double>();
             WTMeasureModel.CurrentValue = new List<double>();
             WTMeasureModel.PowerValue = new List<double>();
+            WTMeasureModel.TimeStamp = new List<double>();
+
             cancellationToken = new CancellationTokenSource();   //cancellationToken每次Cancel（StopClick中）需要重新new
             elementNum = Int32.Parse(App.ElementCopyToMesViewModel.Substring(7));
             volIndex = elementNum + 2 * (elementNum - 1);
@@ -185,7 +187,7 @@ namespace IEC60335Develop.ViewModels {
                 var currentValue = App.WT1800.RemoteCTRL(CMD.Queries.HighSpeed_Data(curIndex));
                 var powerValue = App.WT1800.RemoteCTRL(CMD.Queries.HighSpeed_Data(powIndex));
                 var powerMaxValue = App.WT1800.RemoteCTRL(CMD.Queries.HighSpeed_Max(powIndex));
-                
+
                 var voltageValueArray = Array.ConvertAll<string, double>(voltageValue.Split(','), s => double.Parse(s));
                 var currentValueArray = Array.ConvertAll<string, double>(currentValue.Split(','), s => double.Parse(s));
                 var powerValueArray = Array.ConvertAll<string, double>(powerValue.Split(','), s => double.Parse(s));
@@ -197,6 +199,8 @@ namespace IEC60335Develop.ViewModels {
                     WTMeasureModel.VoltageValue.Add(voltageValueArray[i]);
                     WTMeasureModel.CurrentValue.Add(currentValueArray[i]);
                     WTMeasureModel.PowerValue.Add(powerValueArray[i]);
+                    WTMeasureModel.TimeStamp.Add(powerValueArray[i]);
+
                     DelayOperation.DelaySomeTime(20);
                 }
 
