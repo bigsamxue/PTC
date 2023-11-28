@@ -105,7 +105,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="CMDDictionary\CMD_WT1800E.cs" />
+    <Compile Include="CMDDictionary\CMD.cs" />
     <Compile Include="Models\Connection.cs" />
     <Compile Include="Models\DelayOperation.cs" />
     <Compile Include="Models\WTConnectModel.cs" />

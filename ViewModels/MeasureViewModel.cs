@@ -55,7 +55,7 @@ namespace IEC60335Develop.ViewModels {
         public LineSeries Series2 { get; set; }
         public DateTimeAxis dateTimeAxis1 { get; set; }
 
-
+        int elementNum;
         int volIndex;
         int curIndex;
         int powIndex;
@@ -83,10 +83,7 @@ namespace IEC60335Develop.ViewModels {
 
             RelativePath = App.DefaultFolderPath+@"/File Folder";
 
-            int elementNum = Int32.Parse(App.ElementCopyToMesViewModel.Substring(7));
-            volIndex = elementNum + 2 * (elementNum - 1);
-            curIndex = elementNum + 1 + 2 * (elementNum - 1);
-            powIndex = elementNum + 2 + 2 * (elementNum - 1);
+
         }
 
         private void SaveFileClick() {
@@ -159,6 +156,10 @@ namespace IEC60335Develop.ViewModels {
             WTMeasureModel.CurrentValue = new List<double>();
             WTMeasureModel.PowerValue = new List<double>();
             cancellationToken = new CancellationTokenSource();   //cancellationToken每次Cancel（StopClick中）需要重新new
+            elementNum = Int32.Parse(App.ElementCopyToMesViewModel.Substring(7));
+            volIndex = elementNum + 2 * (elementNum - 1);
+            curIndex = elementNum + 1 + 2 * (elementNum - 1);
+            powIndex = elementNum + 2 + 2 * (elementNum - 1);
             TaskForGetValue = Task.Run(GetValue, cancellationToken.Token);
 
         }
