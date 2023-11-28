@@ -156,7 +156,6 @@ namespace IEC60335Develop.ViewModels {
             WTMeasureModel.VoltageValue = new List<double>();
             WTMeasureModel.CurrentValue = new List<double>();
             WTMeasureModel.PowerValue = new List<double>();
-            WTMeasureModel.TimeStamp = new List<double>();
 
             cancellationToken = new CancellationTokenSource();   //cancellationToken每次Cancel（StopClick中）需要重新new
             elementNum = Int32.Parse(App.ElementCopyToMesViewModel.Substring(7));
@@ -199,7 +198,6 @@ namespace IEC60335Develop.ViewModels {
                     WTMeasureModel.VoltageValue.Add(voltageValueArray[i]);
                     WTMeasureModel.CurrentValue.Add(currentValueArray[i]);
                     WTMeasureModel.PowerValue.Add(powerValueArray[i]);
-                    WTMeasureModel.TimeStamp.Add(powerValueArray[i]);
 
                     DelayOperation.DelaySomeTime(20);
                 }
