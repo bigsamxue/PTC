@@ -56,7 +56,7 @@ namespace IEC60335Develop.ViewModels {
             ElementCopyToMesViewModel = WTSettingModel.Element;
             //MessageBox.Show(WTSettingModel.Element + " " + WTSettingModel.VoltageRange + " " + WTSettingModel.CurrentRange); //测试用
         }
-
+            
 
 
         public SettingViewModel() {
@@ -66,6 +66,8 @@ namespace IEC60335Develop.ViewModels {
             VoltageRangeItems = new List<string> { "1.5V", "3V", "6V", "10V", "15V", "30V", "60V", "100V", "150V", "300V", "600V", "1000V" };
             CurrentRangeItems = new List<string> { "10mA", "20mA", "50mA", "100mA", "200mA", "500mA", "1A", "2A", "5A", "10A", "20A", "50A" };
             SendSettingClickCommand = new DelegateCommand(SendSettingToWT);
+
+            
 
 
         }

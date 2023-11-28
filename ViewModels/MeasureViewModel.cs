@@ -165,32 +165,6 @@ namespace IEC60335Develop.ViewModels {
                     break;
                 }
 
-                //======= 测试用 ===================
-
-                //Random rd = new Random();//测试用
-                //var sv1 = rd.Next(10, 30);
-                //var sv2 = rd.Next(10, 30);
-                //Series1.Points.Add(DateTimeAxis.CreateDataPoint(DateTime.Now, sv1));
-                //Series2.Points.Add(DateTimeAxis.CreateDataPoint(DateTime.Now, sv2));
-                //WTMeasureModel.VoltageValue.Add(sv1);
-                //WTMeasureModel.CurrentValue.Add(sv1);
-                //WTMeasureModel.PowerValue.Add(sv2);
-                //App.Current.Dispatcher.BeginInvoke(new Action(
-                //    () => {
-                //        WTMeasureModel.VoltageValueRT = sv1.ToString();
-                //        WTMeasureModel.CurrentValueRT = sv1.ToString();
-                //        WTMeasureModel.PowerValueRT = sv2.ToString();
-                //        WTMeasureModel.PowerMaxValue = sv2.ToString();
-                //    }));
-                //if (Series1.Points.Count > 300) {
-                //    Series1.Points.RemoveAt(0);
-                //    Series2.Points.RemoveAt(0);
-                //}
-                //Model.InvalidatePlot(true);
-                //DelayOperation.DelaySomeTime(20);
-                //================================
-
-
                 string voltageValue = string.Empty;
                 while (true) {
                     voltageValue = ConnectionViewModel.WT1800.RemoteCTRL(":NUMeric:HSPeed:VALue? " + (double.Parse(SettingViewModel.ElementCopyToMesViewModel.Substring(7)) + 2 * (double.Parse(SettingViewModel.ElementCopyToMesViewModel.Substring(7)) - 1)).ToString());
@@ -213,15 +187,6 @@ namespace IEC60335Develop.ViewModels {
                     return;
                 }
                 var value = Array.ConvertAll<string, double>(oriString, s => double.Parse(s));
-
-
-                //try {
-                //    var value = Array.ConvertAll<string, double>(voltageValue.Split(','), s => double.Parse(s));
-                //}
-                //catch (FormatException) {
-                //    MessageBox.Show("awuluan");
-                //    return;
-                //}
 
                 var voltageValueArray = Array.ConvertAll<string, double>(voltageValue.Split(','), s => double.Parse(s));
                 var currentValueArray = Array.ConvertAll<string, double>(currentValue.Split(','), s => double.Parse(s));
