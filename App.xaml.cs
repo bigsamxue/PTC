@@ -1,4 +1,5 @@
-﻿using IEC60335Develop.Models;
+﻿using IEC60335Develop.CMDDictionary;
+using IEC60335Develop.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -13,7 +14,8 @@ namespace IEC60335Develop {
     /// </summary>
     public partial class App : Application {
         public static Connection WT1800 { get; set; }
-
+        public static CMD CMD {  get; set; }=new CMD();
+        public static string DefaultFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         public static string ElementCopyToMesViewModel { get; set; }
 
         public static string StartTimeCopyToReportViewModel { get; set; }

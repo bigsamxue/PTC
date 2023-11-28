@@ -94,6 +94,7 @@
     <Reference Include="TmctlAPINet64, Version=6.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>packages\TMCTL\TmctlAPINet64.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
@@ -209,6 +210,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Connect.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="tmctl64.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

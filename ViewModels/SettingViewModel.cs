@@ -1,4 +1,5 @@
-﻿using IEC60335Develop.Models;
+﻿using IEC60335Develop.CMDDictionary;
+using IEC60335Develop.Models;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
@@ -48,13 +49,12 @@ namespace IEC60335Develop.ViewModels {
 
         public void SendSettingToWT() {
             IsClicked = true;
-            App.WT1800.RemoteCTRL(":INPUT:CURRENT:RANGE:" + WTSettingModel.Element + " " + WTSettingModel.CurrentRange);
-            App.WT1800.RemoteCTRL(":INPUT:VOLTAGE:RANGE:" + WTSettingModel.Element + " " + WTSettingModel.VoltageRange);
+            App.WT1800.RemoteCTRL(CMD.Set.Current_Range(element: WTSettingModel.Element, range: WTSettingModel.CurrentRange));
+            App.WT1800.RemoteCTRL(CMD.Set.Voltage_Range(element: WTSettingModel.Element, range: WTSettingModel.VoltageRange));
 
             App.ElementCopyToMesViewModel = WTSettingModel.Element;
-            //MessageBox.Show(WTSettingModel.Element + " " + WTSettingModel.VoltageRange + " " + WTSettingModel.CurrentRange); //测试用
         }
-            
+
 
 
         public SettingViewModel() {
@@ -65,7 +65,7 @@ namespace IEC60335Develop.ViewModels {
             CurrentRangeItems = new List<string> { "10mA", "20mA", "50mA", "100mA", "200mA", "500mA", "1A", "2A", "5A", "10A", "20A", "50A" };
             SendSettingClickCommand = new DelegateCommand(SendSettingToWT);
 
-            
+
 
 
         }

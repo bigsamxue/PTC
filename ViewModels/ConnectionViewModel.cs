@@ -9,6 +9,7 @@ using Prism.Commands;
 using System.Globalization;
 using System.Windows.Data;
 using System.Windows;
+using IEC60335Develop.CMDDictionary;
 
 namespace IEC60335Develop.ViewModels {
 
@@ -69,39 +70,23 @@ namespace IEC60335Develop.ViewModels {
         public void ConnectWT() {
             if (ConnectWayRadioBtn.ToString() == "Ether") {
                 App.WT1800 = new Connection((int)Connection.wire.VXI11, WTConnectModel.IPAddr);
-                App.WT1800.Connect();
-                if (App.WT1800.IsConnected == true) {
-                    ImageSource = "pack://application:,,,/IEC60335Develop;component/Resources/Connect.png";
-                    IDNInfo = App.WT1800.RemoteCTRL("*IDN?");
-                }
-                else {
-                    MessageBox.Show("无法连接！请确认连接设置。", "警告", MessageBoxButton.OK, MessageBoxImage.Warning, MessageBoxResult.OK);
-                }
             }
             else if (ConnectWayRadioBtn.ToString() == "USBTMC") {
                 App.WT1800 = new Connection((int)Connection.wire.USBTMC, WTConnectModel.SerialNum);
-                App.WT1800.Connect();
-                if (App.WT1800.IsConnected == true) {
-                    ImageSource = "pack://application:,,,/IEC60335Develop;component/Resources/Connect.png";
-                    IDNInfo = App.WT1800.RemoteCTRL("*IDN?");
-                }
-                else {
-                    MessageBox.Show("无法连接！请确认连接设置。", "警告", MessageBoxButton.OK, MessageBoxImage.Warning, MessageBoxResult.OK);
-                }
             }
             else {
                 App.WT1800 = new Connection((int)Connection.wire.GPIB, WTConnectModel.GPIBAddr);
-                App.WT1800.Connect();
-                if (App.WT1800.IsConnected == true) {
-                    ImageSource = "pack://application:,,,/IEC60335Develop;component/Resources/Connect.png";
-                    IDNInfo = App.WT1800.RemoteCTRL("*IDN?");
-                }
-                else {
-                    MessageBox.Show("无法连接！请确认连接设置。", "警告", MessageBoxButton.OK, MessageBoxImage.Warning, MessageBoxResult.OK);
-                }
             }
-
+            App.WT1800.Connect();
+            if (App.WT1800.IsConnected == true) {
+                ImageSource = "pack://application:,,,/IEC60335Develop;component/Resources/Connect.png";
+                IDNInfo = App.WT1800.RemoteCTRL(CMD.Queries.IDN);
+            }
+            else {
+                MessageBox.Show("无法连接！请确认连接设置。", "警告", MessageBoxButton.OK, MessageBoxImage.Warning, MessageBoxResult.OK);
+            }
         }
+
 
         public void DisconnectWT() {
             App.WT1800.Finish();
