@@ -46,27 +46,19 @@ namespace IEC60335Develop.ViewModels {
 
         public DelegateCommand SendSettingClickCommand { get; set; }
 
-
-        public void SendSettingToWT() {
-            IsClicked = true;
-            App.WT1800.RemoteCTRL(CMD.Set.Current_Range(element: WTSettingModel.Element, range: WTSettingModel.CurrentRange));
-            App.WT1800.RemoteCTRL(CMD.Set.Voltage_Range(element: WTSettingModel.Element, range: WTSettingModel.VoltageRange));
-
-            App.ElementCopyToMesViewModel = WTSettingModel.Element;
-        }
-
-
-
         public SettingViewModel() {
             WTSettingModel = new WTSettingModel();
-
             ElementItems = new List<string> { "Element1", "Element2", "Element3", "Element4", "Element5", "Element6" };
             VoltageRangeItems = new List<string> { "1.5V", "3V", "6V", "10V", "15V", "30V", "60V", "100V", "150V", "300V", "600V", "1000V" };
             CurrentRangeItems = new List<string> { "10mA", "20mA", "50mA", "100mA", "200mA", "500mA", "1A", "2A", "5A", "10A", "20A", "50A" };
             SendSettingClickCommand = new DelegateCommand(SendSettingToWT);
-
-
-
+        }
+        public void SendSettingToWT() {
+            IsClicked = true;
+            App.WT1800.RemoteCTRL(CMD.Set.Current_Range(element: WTSettingModel.Element, range: WTSettingModel.CurrentRange));
+            App.WT1800.RemoteCTRL(CMD.Set.Voltage_Range(element: WTSettingModel.Element, range: WTSettingModel.VoltageRange));
+            App.WT1800.RemoteCTRL(CMD.Set.HighSpeed_Mode);
+            App.ElementCopyToMesViewModel = WTSettingModel.Element;
 
         }
     }

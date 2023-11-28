@@ -38,7 +38,7 @@ namespace IEC60335Develop.CMDDictionary {
             }
         }
         public class Set {
-            
+            public const string HighSpeed_Mode = ":DISPlay:MODE HSPeed";
             public const string HighSpeed_Start = ":HSPEED:START";
             public const string HighSpeed_Stop = ":HSPEED:STOP";
 
