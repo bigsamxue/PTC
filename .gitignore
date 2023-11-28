@@ -1,3 +1,5 @@
 /bin
 /.vs
 /obj
+.vs
+/.vs/IEC60335Develop/v17/*.suo

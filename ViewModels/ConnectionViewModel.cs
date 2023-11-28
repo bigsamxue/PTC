@@ -59,7 +59,7 @@ namespace IEC60335Develop.ViewModels {
             set { SetProperty(ref _idnInfo, value); }
         }
 
-        public static Connection WT1800 { get; set; }
+       
 
 
         public DelegateCommand ConnectClickCommand { get; set; }
@@ -68,33 +68,33 @@ namespace IEC60335Develop.ViewModels {
 
         public void ConnectWT() {
             if (ConnectWayRadioBtn.ToString() == "Ether") {
-                WT1800 = new Connection((int)Connection.wire.VXI11, WTConnectModel.IPAddr);
-                WT1800.Connect();
-                if (WT1800.IsConnected == true) {
+                App.WT1800 = new Connection((int)Connection.wire.VXI11, WTConnectModel.IPAddr);
+                App.WT1800.Connect();
+                if (App.WT1800.IsConnected == true) {
                     ImageSource = "pack://application:,,,/IEC60335Develop;component/Resources/Connect.png";
-                    IDNInfo = WT1800.RemoteCTRL("*IDN?");
+                    IDNInfo = App.WT1800.RemoteCTRL("*IDN?");
                 }
                 else {
                     MessageBox.Show("无法连接！请确认连接设置。", "警告", MessageBoxButton.OK, MessageBoxImage.Warning, MessageBoxResult.OK);
                 }
             }
             else if (ConnectWayRadioBtn.ToString() == "USBTMC") {
-                WT1800 = new Connection((int)Connection.wire.USBTMC, WTConnectModel.SerialNum);
-                WT1800.Connect();
-                if (WT1800.IsConnected == true) {
+                App.WT1800 = new Connection((int)Connection.wire.USBTMC, WTConnectModel.SerialNum);
+                App.WT1800.Connect();
+                if (App.WT1800.IsConnected == true) {
                     ImageSource = "pack://application:,,,/IEC60335Develop;component/Resources/Connect.png";
-                    IDNInfo = WT1800.RemoteCTRL("*IDN?");
+                    IDNInfo = App.WT1800.RemoteCTRL("*IDN?");
                 }
                 else {
                     MessageBox.Show("无法连接！请确认连接设置。", "警告", MessageBoxButton.OK, MessageBoxImage.Warning, MessageBoxResult.OK);
                 }
             }
             else {
-                WT1800 = new Connection((int)Connection.wire.GPIB, WTConnectModel.GPIBAddr);
-                WT1800.Connect();
-                if (WT1800.IsConnected == true) {
+                App.WT1800 = new Connection((int)Connection.wire.GPIB, WTConnectModel.GPIBAddr);
+                App.WT1800.Connect();
+                if (App.WT1800.IsConnected == true) {
                     ImageSource = "pack://application:,,,/IEC60335Develop;component/Resources/Connect.png";
-                    IDNInfo = WT1800.RemoteCTRL("*IDN?");
+                    IDNInfo = App.WT1800.RemoteCTRL("*IDN?");
                 }
                 else {
                     MessageBox.Show("无法连接！请确认连接设置。", "警告", MessageBoxButton.OK, MessageBoxImage.Warning, MessageBoxResult.OK);
@@ -104,7 +104,7 @@ namespace IEC60335Develop.ViewModels {
         }
 
         public void DisconnectWT() {
-            WT1800.Finish();
+            App.WT1800.Finish();
             ImageSource = "pack://application:,,,/IEC60335Develop;component/Resources/Disconnect.png";
         }
 

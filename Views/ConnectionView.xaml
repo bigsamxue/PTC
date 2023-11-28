@@ -30,24 +30,26 @@
                 <TextBlock Text="设备列表" FontSize="30" FontFamily="{StaticResource IconFont}" Margin="15,0,15,15" Background="LightBlue"/>
                 <StackPanel Orientation="Horizontal" Margin="15,0,15,15" >
                     <!--Converter在继承自IValueConverter时使用-->
-                    <RadioButton Content="Ether    " 
+                    <RadioButton IsThreeState="False" Content="Ether    " x:Name="EtherRadio" GroupName="ConnectionWay"
                                  IsChecked="{Binding Mode=TwoWay, Path=ConnectWayRadioBtn, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static vm:ConnectWayEnum.Ether}}" FontFamily="{StaticResource IconFont}" FontSize="15"/>
-                    <RadioButton Content="USB-TMC    "
+                    <RadioButton IsThreeState="False" Content="USB-TMC    " x:Name="USBRadio" GroupName="ConnectionWay"
                                    IsChecked="{Binding Mode=TwoWay, Path=ConnectWayRadioBtn, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static vm:ConnectWayEnum.USBTMC}}" FontFamily="{StaticResource IconFont}" FontSize="15"/>
-                    <RadioButton Content="GPIB    "
+                    <RadioButton IsThreeState="False" Content="GPIB    " x:Name="GPIBRadio" GroupName="ConnectionWay"
                                    IsChecked="{Binding Mode=TwoWay, Path=ConnectWayRadioBtn, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static vm:ConnectWayEnum.GPIB}}" FontFamily="{StaticResource IconFont}" FontSize="15"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="15,0,15,15">
                     <TextBlock Text="IP地址      "  FontFamily="{StaticResource IconFont}" FontSize="20"/>
-                    <TextBox Text="{Binding WTConnectModel.IPAddr ,Mode=TwoWay}" FontSize="20" FontFamily="{StaticResource IconFont}" Width="150"/>
+                    <TextBox Text="{Binding WTConnectModel.IPAddr ,Mode=TwoWay}" FontSize="20" FontFamily="{StaticResource IconFont}" Width="150" IsEnabled="{Binding ElementName=EtherRadio,Path=IsChecked,Mode=OneWay}">
+                        
+                    </TextBox>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="15,0,15,15">
                     <TextBlock Text="GPIB地址 " FontFamily="{StaticResource IconFont}" FontSize="20"/>
-                    <TextBox Text="{Binding WTConnectModel.GPIBAddr ,Mode=TwoWay}" FontSize="20" FontFamily="{StaticResource IconFont}" Width="150"/>
+                    <TextBox Text="{Binding WTConnectModel.GPIBAddr ,Mode=TwoWay}" FontSize="20" FontFamily="{StaticResource IconFont}" Width="150" IsEnabled="{Binding ElementName=GPIBRadio ,Path=IsChecked,Mode=OneWay}"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="15,0,15,15">
                     <TextBlock Text="序列号      " FontFamily="{StaticResource IconFont}" FontSize="20"/>
-                    <TextBox Text="{Binding WTConnectModel.SerialNum ,Mode=TwoWay}" FontSize="20" FontFamily="{StaticResource IconFont}" Width="150"/>
+                    <TextBox Text="{Binding WTConnectModel.SerialNum ,Mode=TwoWay}" FontSize="20" FontFamily="{StaticResource IconFont}" Width="150" IsEnabled="{Binding ElementName=USBRadio,Path=IsChecked,Mode=OneWay}"/>
                 </StackPanel>
                 <TextBlock Text="连接"  FontSize="30" FontFamily="{StaticResource IconFont}" Background="LightBlue" Margin="15,0,15,15"/>
                 <Button Command="{Binding ConnectClickCommand}" Content="连接" FontFamily="{StaticResource IconFont}"  Margin="15,0,15,15" FontSize="30" Background="AliceBlue"/>

@@ -33,18 +33,13 @@ namespace IEC60335Develop.ViewModels {
 
         public DelegateCommand SaveFile { get; set; }
 
-        public static string StartTimeCopyToReportViewModel { get; set; }
-
-        public static string StopTimeCopyToReportViewModel { get; set; }
-
-        public static List<double> CurrentListCopyToReportViewModel { get; set; }
-        public static List<double> PowerListCopyToReportViewModel { get; set; }
+       
 
         public Task TaskForGetValue { get; set; }
         public CancellationTokenSource cancellationToken { get; set; }
 
         string RelativePath;
-        public static string SavePath { get; set; }
+        
         int StopClickCount = 0;
         bool IsSaveFileButton = false;
 
@@ -68,8 +63,8 @@ namespace IEC60335Develop.ViewModels {
             ResetCommand = new DelegateCommand(ResetClick);
             SaveFile = new DelegateCommand(SaveFileClick);
 
-            CurrentListCopyToReportViewModel = new List<double>();
-            PowerListCopyToReportViewModel = new List<double>();
+            App.CurrentListCopyToReportViewModel = new List<double>();
+            App.PowerListCopyToReportViewModel = new List<double>();
 
             Model = new PlotModel() { Title = "实时电流/功率曲线" };
             Series1 = new LineSeries { Title = "电流", MarkerType = MarkerType.None, Smooth = true };
@@ -117,27 +112,27 @@ namespace IEC60335Develop.ViewModels {
                 }
                 var date = DateTime.Now.ToString("yyyyMMdd");
                 var time = DateTime.Now.ToString("HH.mm");
-                SavePath = RelativePath + "/DataFile-00" + StopClickCount.ToString() + " " + date + " " + time + ".csv";
+                App.SavePath = RelativePath + "/DataFile-00" + StopClickCount.ToString() + " " + date + " " + time + ".csv";
             }
             else {
                 var date = DateTime.Now.ToString("yyyyMMdd");
                 var time = DateTime.Now.ToString("HH.mm");
-                SavePath = RelativePath + "/DataFile-00" + StopClickCount.ToString() + " " + date + " " + time + ".csv";
+                App.SavePath = RelativePath + "/DataFile-00" + StopClickCount.ToString() + " " + date + " " + time + ".csv";
             }
 
-            ConnectionViewModel.WT1800.RemoteCTRL(":HSPEED:STOP");//解注释
-            StopTimeCopyToReportViewModel = DateTime.Now.ToString();
+            App.WT1800.RemoteCTRL(":HSPEED:STOP");//解注释
+            App.StopTimeCopyToReportViewModel = DateTime.Now.ToString();
             //MessageBox.Show(StopTimeCopyToReportViewModel.ToString());//测试用
             cancellationToken.Cancel();
 
-            CurrentListCopyToReportViewModel = WTMeasureModel.CurrentValue;
-            PowerListCopyToReportViewModel = WTMeasureModel.PowerValue;
+            App.CurrentListCopyToReportViewModel = WTMeasureModel.CurrentValue;
+            App.PowerListCopyToReportViewModel = WTMeasureModel.PowerValue;
 
 
-            if (!File.Exists(SavePath))
-                File.Create(SavePath).Close();
+            if (!File.Exists(App.SavePath))
+                File.Create(App.SavePath).Close();
 
-            StreamWriter sw = new StreamWriter(SavePath, true, Encoding.UTF8);
+            StreamWriter sw = new StreamWriter(App.SavePath, true, Encoding.UTF8);
             string dataHeader = "电压,电流,功率";
             sw.WriteLine(dataHeader);
             for (int j = 0; j < WTMeasureModel.VoltageValue.Count; j++) {
@@ -148,8 +143,8 @@ namespace IEC60335Develop.ViewModels {
         }
 
         private void StartClick() {
-            ConnectionViewModel.WT1800.RemoteCTRL(":HSPEED:START");//解注释
-            StartTimeCopyToReportViewModel = DateTime.Now.ToString();
+            App.WT1800.RemoteCTRL(":HSPEED:START");//解注释
+            App.StartTimeCopyToReportViewModel = DateTime.Now.ToString();
             WTMeasureModel.VoltageValue = new List<double>();
             WTMeasureModel.CurrentValue = new List<double>();
             WTMeasureModel.PowerValue = new List<double>();
@@ -193,25 +188,16 @@ namespace IEC60335Develop.ViewModels {
 
                 string voltageValue = string.Empty;
                 while (true) {
-                    voltageValue = ConnectionViewModel.WT1800.RemoteCTRL(":NUMeric:HSPeed:VALue? " + (double.Parse(SettingViewModel.ElementCopyToMesViewModel.Substring(7)) + 2 * (double.Parse(SettingViewModel.ElementCopyToMesViewModel.Substring(7)) - 1)).ToString());
+                    voltageValue = App.WT1800.RemoteCTRL(":NUMeric:HSPeed:VALue? " + (double.Parse(App.ElementCopyToMesViewModel.Substring(7)) + 2 * (double.Parse(App.ElementCopyToMesViewModel.Substring(7)) - 1)).ToString());
                     if (!string.IsNullOrWhiteSpace(voltageValue)) {
                         break;
                     }
                 }
 
-                var currentValue = ConnectionViewModel.WT1800.RemoteCTRL(":NUMeric:HSPeed:VALue? " + (double.Parse(SettingViewModel.ElementCopyToMesViewModel.Substring(7)) + 1 + 2 * (double.Parse(SettingViewModel.ElementCopyToMesViewModel.Substring(7)) - 1)).ToString());
-                var powerValue = ConnectionViewModel.WT1800.RemoteCTRL(":NUMeric:HSPeed:VALue? " + (double.Parse(SettingViewModel.ElementCopyToMesViewModel.Substring(7)) + 2 + 2 * (double.Parse(SettingViewModel.ElementCopyToMesViewModel.Substring(7)) - 1)).ToString());
-                var powerMaxValue = ConnectionViewModel.WT1800.RemoteCTRL(":NUMERIC:HSPEED:MAXIMUM? " + (double.Parse(SettingViewModel.ElementCopyToMesViewModel.Substring(7)) + 2 + 2 * (double.Parse(SettingViewModel.ElementCopyToMesViewModel.Substring(7)) - 1)).ToString());
+                var currentValue = App.WT1800.RemoteCTRL(":NUMeric:HSPeed:VALue? " + (double.Parse(App.ElementCopyToMesViewModel.Substring(7)) + 1 + 2 * (double.Parse(App.ElementCopyToMesViewModel.Substring(7)) - 1)).ToString());
+                var powerValue = App.WT1800.RemoteCTRL(":NUMeric:HSPeed:VALue? " + (double.Parse(App.ElementCopyToMesViewModel.Substring(7)) + 2 + 2 * (double.Parse(App.ElementCopyToMesViewModel.Substring(7)) - 1)).ToString());
+                var powerMaxValue = App.WT1800.RemoteCTRL(":NUMERIC:HSPEED:MAXIMUM? " + (double.Parse(App.ElementCopyToMesViewModel.Substring(7)) + 2 + 2 * (double.Parse(App.ElementCopyToMesViewModel.Substring(7)) - 1)).ToString());
 
-                try
-                {
-                    var value = Array.ConvertAll<string, double>(voltageValue.Split(','), s => double.Parse(s));
-                }
-                catch (FormatException)
-                {
-                    MessageBox.Show("awuluan");
-                    return;
-                }
 
                 var voltageValueArray = Array.ConvertAll<string, double>(voltageValue.Split(','), s => double.Parse(s));
                 var currentValueArray = Array.ConvertAll<string, double>(currentValue.Split(','), s => double.Parse(s));

@@ -41,8 +41,6 @@ namespace IEC60335Develop.ViewModels {
             set { SetProperty(ref _wTSettingModel, value); }
         }
 
-        public static string ElementCopyToMesViewModel { get; set; }
-
         public static bool IsClicked { get; set; } = false;
 
         public DelegateCommand SendSettingClickCommand { get; set; }
@@ -50,10 +48,10 @@ namespace IEC60335Develop.ViewModels {
 
         public void SendSettingToWT() {
             IsClicked = true;
-            ConnectionViewModel.WT1800.RemoteCTRL(":INPUT:CURRENT:RANGE:" + WTSettingModel.Element + " " + WTSettingModel.CurrentRange);
-            ConnectionViewModel.WT1800.RemoteCTRL(":INPUT:VOLTAGE:RANGE:" + WTSettingModel.Element + " " + WTSettingModel.VoltageRange);
+            App.WT1800.RemoteCTRL(":INPUT:CURRENT:RANGE:" + WTSettingModel.Element + " " + WTSettingModel.CurrentRange);
+            App.WT1800.RemoteCTRL(":INPUT:VOLTAGE:RANGE:" + WTSettingModel.Element + " " + WTSettingModel.VoltageRange);
 
-            ElementCopyToMesViewModel = WTSettingModel.Element;
+            App.ElementCopyToMesViewModel = WTSettingModel.Element;
             //MessageBox.Show(WTSettingModel.Element + " " + WTSettingModel.VoltageRange + " " + WTSettingModel.CurrentRange); //测试用
         }
 

@@ -98,19 +98,19 @@ namespace IEC60335Develop.ViewModels {
                 ((LineSeries)lineSer).Points.Clear();
 
             }
-            //清除完曲线之后，重新刷新坐标轴66
+            //清除完曲线之后，重新刷新坐标轴
             dateTimeAxis2 = new DateTimeAxis() { MaximumRange = 0.1, };
             dateTimeAxis2.Title = "Time";
             ModelPowerSort.InvalidatePlot(true);
             Thread.Sleep(10);
 
             //将起止时间同步更新到View
-            WTReportModel.StartTime = MeasureViewModel.StartTimeCopyToReportViewModel;
-            WTReportModel.StopTime = MeasureViewModel.StopTimeCopyToReportViewModel;
+            WTReportModel.StartTime = App.StartTimeCopyToReportViewModel;
+            WTReportModel.StopTime = App.StopTimeCopyToReportViewModel;
 
             //将CurrentList、PowerList降序排列
-            WTReportModel.CurrentList = MeasureViewModel.CurrentListCopyToReportViewModel;
-            WTReportModel.PowerList = MeasureViewModel.PowerListCopyToReportViewModel;
+            WTReportModel.CurrentList = App.CurrentListCopyToReportViewModel;
+            WTReportModel.PowerList = App.PowerListCopyToReportViewModel;
             WTReportModel.CurrentList.Sort();
             WTReportModel.CurrentList.Reverse();
             WTReportModel.PowerList.Sort();
@@ -140,25 +140,12 @@ namespace IEC60335Develop.ViewModels {
                 ElementsCollection.Add(elements);
             }
             LineSeries Series1Copy = new LineSeries();
-            var tempPoints = Series1.Points.ToArray();
-            Series1.Points.Clear();
-            for (int i = 0; i < tempPoints.Length; i++) {
-                Series1Copy.Points.Add(tempPoints[i]);
-            }
-            LineSeries Series2Copy = new LineSeries();
-            var tempPoints2 = Series2.Points.ToArray();
-            Series2.Points.Clear();
-            for (int i = 0; i < tempPoints2.Length; i++) {
-                Series2Copy.Points.Add(tempPoints2[i]);
-            }
+            Series1Copy = Series1;
             ModelCurrentSort.Series.Add(Series1Copy);
-            ModelPowerSort.Series.Add(Series2Copy);
-
-            ModelCurrentSort.InvalidatePlot(true);
-            ModelPowerSort.InvalidatePlot(true);
+            ModelPowerSort.Series.Add(Series2);
 
             //排序结果输出csv
-            SavePathSorted = MeasureViewModel.SavePath.Substring(0, MeasureViewModel.SavePath.Length - 4) + "Sorted.csv";
+            SavePathSorted = App.SavePath.Substring(0, App.SavePath.Length - 4) + "Sorted.csv";
             if (!File.Exists(SavePathSorted))
                 File.Create(SavePathSorted).Close();
 
