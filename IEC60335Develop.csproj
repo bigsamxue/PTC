@@ -115,6 +115,7 @@
     <Compile Include="Models\WTSettingModel.cs" />
     <Compile Include="Models\WTMeasureModel.cs" />
     <Compile Include="ViewModels\ConnectionViewModel.cs" />
+    <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\MeasureViewModel.cs" />
     <Compile Include="ViewModels\ReportViewModel.cs" />
     <Compile Include="ViewModels\SettingViewModel.cs" />

@@ -129,7 +129,6 @@ namespace IEC60335Develop.ViewModels {
 
             App.WT1800.RemoteCTRL(CMD.Set.HighSpeed_Stop);//解注释
             App.StopTimeCopyToReportViewModel = DateTime.Now.ToString();
-            //MessageBox.Show(StopTimeCopyToReportViewModel.ToString());//测试用
             cancellationToken.Cancel();
 
             App.CurrentListCopyToReportViewModel = WTMeasureModel.CurrentValue;
@@ -165,32 +164,41 @@ namespace IEC60335Develop.ViewModels {
             TaskForGetValue = Task.Run(GetValue, cancellationToken.Token);
 
         }
+        double[] ValueConvert(string oriData) {
+            if (oriData.Contains("Error")|string.IsNullOrWhiteSpace(oriData)) return null;
+            return Array.ConvertAll<string, double>(oriData.Split(','), double.Parse);
+        }
+
+        string GetHighSpeedData(int index) {
+            return App.WT1800.RemoteCTRL(CMD.Queries.HighSpeed_Data(index)).Replace("\n","");
+        }
+
 
         private void GetValue() {
-
-
-
             while (true) {
-
                 if (cancellationToken.Token.IsCancellationRequested) {
                     break;
                 }
 
                 string voltageValue = string.Empty;
                 while (true) {
-                    voltageValue = App.WT1800.RemoteCTRL(CMD.Queries.HighSpeed_Data(volIndex));
+                    voltageValue = GetHighSpeedData(volIndex);
                     if (!string.IsNullOrWhiteSpace(voltageValue)) {
                         break;
                     }
                 }
-                var currentValue = App.WT1800.RemoteCTRL(CMD.Queries.HighSpeed_Data(curIndex));
-                var powerValue = App.WT1800.RemoteCTRL(CMD.Queries.HighSpeed_Data(powIndex));
+                var currentValue = GetHighSpeedData(curIndex);
+                var powerValue = GetHighSpeedData(powIndex);
                 var powerMaxValue = App.WT1800.RemoteCTRL(CMD.Queries.HighSpeed_Max(powIndex));
 
-                var voltageValueArray = Array.ConvertAll<string, double>(voltageValue.Split(','), s => double.Parse(s));
-                var currentValueArray = Array.ConvertAll<string, double>(currentValue.Split(','), s => double.Parse(s));
-                var powerValueArray = Array.ConvertAll<string, double>(powerValue.Split(','), s => double.Parse(s));
+                var voltageValueArray = ValueConvert(voltageValue);
+                var currentValueArray = ValueConvert(currentValue);
+                var powerValueArray = ValueConvert(powerValue);
 
+                if (voltageValueArray == null) {
+                    MessageBox.Show("未获取到有效数据，请检查电源");
+                    return;
+                }
                 for (int i = 0; i < currentValueArray.Length; i++) {
                     var date = DateTime.Now;
                     Series1.Points.Add(DateTimeAxis.CreateDataPoint(date, currentValueArray[i]));

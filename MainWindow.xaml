@@ -5,8 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:IEC60335Develop"
         xmlns:views="clr-namespace:IEC60335Develop.Views"
+        xmlns:vm="clr-namespace:IEC60335Develop.ViewModels"
         mc:Ignorable="d"
         Title="IEC60335-1" Height="700" Width="1200" WindowState="Maximized">
+    <Window.DataContext>
+        <vm:MainWindowViewModel/>
+    </Window.DataContext>
     <Window.Resources>
         <FontFamily x:Key="IconFont">
             /Fonts/SourceHanSansCN-Normal.otf #Source Han Sans CN
@@ -20,7 +24,7 @@
             <TabItem Header="设定" FontSize="30" FontFamily="{StaticResource IconFont}" Width="150">
                 <views:SettingView/>
             </TabItem>
-            <TabItem Header="测量" FontSize="30" FontFamily="{StaticResource IconFont}" Width="150">
+            <TabItem Header="测量" FontSize="30" FontFamily="{StaticResource IconFont}" Width="150" IsEnabled="{Binding SetHSPCompleted}">
                 <views:MeasureView/>
             </TabItem>
             <TabItem Header="排序" FontSize="30" FontFamily="{StaticResource IconFont}" Width="150">

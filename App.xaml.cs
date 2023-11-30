@@ -27,5 +27,6 @@ namespace IEC60335Develop {
         public static List<double> PowerListCopyToReportViewModel { get; set; }
 
         public static string SavePath { get; set; }
+
     }
 }
