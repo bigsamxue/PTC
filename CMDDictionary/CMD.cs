@@ -9,10 +9,11 @@ namespace IEC60335Develop.CMDDictionary {
     public class CMD {
         const string Current_Range_Collectively = ":INPut:CURRent:RANGe:";
         const string Voltage_Range_Collectively = ":INPut:VOLTage:RANGe:";
+        const string Numeric_Highspeed_Item = ":NUMeric:HSPeed:ITEM";
 
         public class Queries {
-            public const string IDN= "*IDN?";
-            public const string Mode= ":DISPlay:MODE?";
+            public const string IDN = "*IDN?";
+            public const string Mode = ":DISPlay:MODE?";
             public static string HighSpeed_Data(int NRF = 3) {
                 return ":NUMeric:HSPeed:VALue? " + NRF;
             }
@@ -37,7 +38,10 @@ namespace IEC60335Develop.CMDDictionary {
             public static string Voltage_Range() {
                 return Voltage_Range_Collectively + "ALL" + "?";
             }
-            
+            public static string HSpeed_Item(string itemNum) {
+                return Numeric_Highspeed_Item + itemNum + "?";
+            }
+
         }
         public class Set {
             public const string HighSpeed_Mode = ":DISPlay:MODE HSPeed";
@@ -50,6 +54,10 @@ namespace IEC60335Develop.CMDDictionary {
 
             public static string Voltage_Range(string element = "ALL", string range = "50A") {
                 return Voltage_Range_Collectively + element + " " + range;
+            }
+
+            public static string HSpeed_Item(string itemNum, string func, string element) {
+                return Numeric_Highspeed_Item + itemNum + " " + func + "," + element;
             }
         }
     }

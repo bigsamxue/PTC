@@ -149,6 +149,13 @@ namespace IEC60335Develop.ViewModels {
             }
         }
 
+        void SetRecItemIndex() {
+            App.WT1800.RemoteCTRL(CMD.Set.HSpeed_Item("1","U", elementNum.ToString()));
+            App.WT1800.RemoteCTRL(CMD.Set.HSpeed_Item("2","I", elementNum.ToString()));
+            App.WT1800.RemoteCTRL(CMD.Set.HSpeed_Item("3","P", elementNum.ToString()));
+            throw new NotImplementedException();
+        }
+
         private void StartClick() {
             App.WT1800.RemoteCTRL(CMD.Set.HighSpeed_Start);//解注释
             App.StartTimeCopyToReportViewModel = DateTime.Now.ToString();
@@ -158,9 +165,9 @@ namespace IEC60335Develop.ViewModels {
 
             cancellationToken = new CancellationTokenSource();   //cancellationToken每次Cancel（StopClick中）需要重新new
             elementNum = Int32.Parse(App.ElementCopyToMesViewModel.Substring(7));
-            volIndex = elementNum + 2 * (elementNum - 1);
-            curIndex = elementNum + 1 + 2 * (elementNum - 1);
-            powIndex = elementNum + 2 + 2 * (elementNum - 1);
+            volIndex = 1;
+            curIndex = 2;
+            powIndex = 3;
             TaskForGetValue = Task.Run(GetValue, cancellationToken.Token);
 
         }
