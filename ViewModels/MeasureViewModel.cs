@@ -195,11 +195,12 @@ namespace IEC60335Develop.ViewModels {
 
         }
         void Delayer(int delay) {
-            long timespan=delay*1000;
-            sw.Start();
-            while(sw.ElapsedMilliseconds < timespan) { }
+            //long timespan=delay*1000;
+            //sw.Start();
+            //while(sw.ElapsedMilliseconds < timespan) { }
+            Thread.Sleep(delay * 1000 + 1000);
             StopClick();
-            sw.Stop();
+            //sw.Stop();
         }
         void Interrupter() {
             cancellationToken.Cancel();
@@ -247,7 +248,7 @@ namespace IEC60335Develop.ViewModels {
                     WTMeasureModel.VoltageValue.Add(voltageValueArray[i]);
                     WTMeasureModel.CurrentValue.Add(currentValueArray[i]);
                     WTMeasureModel.PowerValue.Add(powerValueArray[i]);
-
+                    App.DefaultTimeSpan = powerValueArray.Length;
                     DelayOperation.DelaySomeTime(20);
                 }
 

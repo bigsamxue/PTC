@@ -28,5 +28,7 @@ namespace IEC60335Develop {
 
         public static string SavePath { get; set; }
 
+        public static int DefaultTimeSpan { get; set; }
+
     }
 }

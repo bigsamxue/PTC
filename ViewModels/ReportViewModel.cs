@@ -48,6 +48,13 @@ namespace IEC60335Develop.ViewModels {
             set { SetProperty(ref _elementsCollection, value); }
         }
 
+        private int _defaultTimeInterval;
+        public int DefaultTimeInterval {
+            get { return _defaultTimeInterval; }
+            set { SetProperty(ref _defaultTimeInterval, value); }
+        }
+
+
         public string SavePathSorted { get; set; }
 
         public DelegateCommand SortOutputCommand { get; set; }
@@ -117,27 +124,33 @@ namespace IEC60335Develop.ViewModels {
             WTReportModel.PowerList.Reverse();
             //计算最大、90%、平均值更新到View
             WTReportModel.MaxValue = WTReportModel.PowerList[0].ToString();
-            WTReportModel.AvgValue = (WTReportModel.PowerList.Sum() / WTReportModel.PowerList.Count).ToString();
+            WTReportModel.AvgValue = (WTReportModel.PowerList.Sum() / WTReportModel.PowerList.Count).ToString("0.00");
             int nintypoistion = (int)(WTReportModel.PowerList.Count * 0.1);
             WTReportModel.NintyValue = WTReportModel.PowerList[nintypoistion].ToString();
             var maxParse = double.TryParse(WTReportModel.MaxValue, out double max);
             var avgParse = double.TryParse(WTReportModel.AvgValue, out double avg);
             var nintyParse = double.TryParse(WTReportModel.NintyValue, out double ninty);
             //计算测量结果更新到View
-            WTReportModel.Result = ((max > 2 * avg) ? (ninty > avg ? ninty : avg) : avg).ToString();
+            WTReportModel.Result = ((max > 2 * avg) ? (ninty > avg ? ninty : avg) : avg).ToString("0.00");
 
             //将结果写入DataGrid，将降序排列的List更新到View
             ElementsCollection = new Collection<Elements>();
- ;
+            //DefaultTimeInterval = 20;
+            int testLineNum = 0;
+            DefaultTimeInterval = 1000 / App.DefaultTimeSpan;
+            DateTime DateTimeStamp=Convert.ToDateTime(WTReportModel.StartTime);
+            TimeSpan SpanUnit = TimeSpan.FromMilliseconds(DefaultTimeInterval);
             for (int i = 0; i < WTReportModel.PowerList.Count; i++) {
                 Series1.Points.Add(new DataPoint(i, WTReportModel.CurrentList[i]));
                 Series2.Points.Add(new DataPoint(i, WTReportModel.PowerList[i]));
                 Elements elements = new Elements() {
-                    Num = i,
+                    Timestamp = DateTimeStamp.ToString("HH:mm:ss:fff"),
                     Current = WTReportModel.CurrentList[i],
                     Power = WTReportModel.PowerList[i]
                 };
                 ElementsCollection.Add(elements);
+                DateTimeStamp += SpanUnit;
+                testLineNum++;
             }
             LineSeries Series1Copy = new LineSeries();
             var tempPoints = Series1.Points.ToArray();
@@ -175,7 +188,7 @@ namespace IEC60335Develop.ViewModels {
 
     }
     public class Elements {
-        public int Num { get; set; }
+        public string Timestamp { get; set; }
         public double Power { get; set; }
         public double Current { get; set; }
     }

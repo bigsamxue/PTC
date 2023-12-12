@@ -70,7 +70,7 @@
                 </Grid>
                 <DataGrid  ItemsSource="{Binding ElementsCollection}" Grid.Row="1" AutoGenerateColumns="False" CanUserAddRows="False" FontFamily="{StaticResource IconFont}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="序号       " Width="Auto" Binding="{Binding Num}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="序号       " Width="Auto" Binding="{Binding Timestamp}" IsReadOnly="True"/>
                         <DataGridTextColumn Header="功率(W)   "  Width="Auto" Binding="{Binding Power}" IsReadOnly="True"/>
                         <DataGridTextColumn Header="电流(A)    " Width="Auto" Binding="{Binding Current}" IsReadOnly="True"/>
                     </DataGrid.Columns>
