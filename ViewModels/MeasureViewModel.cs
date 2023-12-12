@@ -52,7 +52,7 @@ namespace IEC60335Develop.ViewModels {
 
         public Task TaskForGetValue { get; set; }
         public CancellationTokenSource cancellationToken { get; set; }
-        Stopwatch sw;
+
 
         string RelativePath;
 
@@ -69,6 +69,7 @@ namespace IEC60335Develop.ViewModels {
         public LineSeries Series1 { get; set; }
         public LineSeries Series2 { get; set; }
         public DateTimeAxis dateTimeAxis1 { get; set; }
+        DateTime StartTime { get; set; }
 
         int elementNum;
         int volIndex;
@@ -99,7 +100,6 @@ namespace IEC60335Develop.ViewModels {
             RelativePath = App.DefaultFolderPath + @"/File Folder";
             DelaySec = 0;
             IsNotMeasuring = true;
-            sw = new Stopwatch();
         }
 
         private void SaveFileClick() {
@@ -155,10 +155,12 @@ namespace IEC60335Develop.ViewModels {
                 File.Create(App.SavePath).Close();
 
             using (StreamWriter sw = new StreamWriter(App.SavePath, true, Encoding.UTF8)) {
-                string dataHeader = "电压,电流,功率";
+                string dataHeader = "日期,时间,电压,电流,功率";
                 sw.WriteLine(dataHeader);
+                TimeSpan span = TimeSpan.FromMilliseconds(App.DefaultTimeSpan);
                 for (int j = 0; j < WTMeasureModel.VoltageValue.Count; j++) {
-                    sw.WriteLine($"{WTMeasureModel.VoltageValue[j]},{WTMeasureModel.CurrentValue[j]},{WTMeasureModel.PowerValue[j]}");
+                    sw.WriteLine($"{DateTime.Now.ToString("yyyy/MM/dd")},{StartTime.ToString("HH:mm:ss:fff")},{WTMeasureModel.VoltageValue[j]},{WTMeasureModel.CurrentValue[j]},{WTMeasureModel.PowerValue[j]}");
+                    StartTime += span;
                 }
                 sw.Flush();
                 sw.Close();
@@ -166,9 +168,9 @@ namespace IEC60335Develop.ViewModels {
         }
 
         void SetReceiverItemIndex() {
-            App.WT1800.RemoteCTRL(CMD.Set.HSpeed_Item("1","U", elementNum.ToString()));
-            App.WT1800.RemoteCTRL(CMD.Set.HSpeed_Item("2","I", elementNum.ToString()));
-            App.WT1800.RemoteCTRL(CMD.Set.HSpeed_Item("3","P", elementNum.ToString()));
+            App.WT1800.RemoteCTRL(CMD.Set.HSpeed_Item("1", "U", elementNum.ToString()));
+            App.WT1800.RemoteCTRL(CMD.Set.HSpeed_Item("2", "I", elementNum.ToString()));
+            App.WT1800.RemoteCTRL(CMD.Set.HSpeed_Item("3", "P", elementNum.ToString()));
             throw new NotImplementedException();
         }
 
@@ -186,33 +188,28 @@ namespace IEC60335Develop.ViewModels {
             volIndex = 1;
             curIndex = 2;
             powIndex = 3;
+            StartTime = DateTime.Now;
             if (DelaySec != 0) {
-                sw.Reset();
-                Task.Run(()=>Delayer(DelaySec));
+                Task.Run(() => Delayer(DelaySec));
             }
-
             TaskForGetValue = Task.Run(GetValue, cancellationToken.Token);
 
         }
         void Delayer(int delay) {
-            //long timespan=delay*1000;
-            //sw.Start();
-            //while(sw.ElapsedMilliseconds < timespan) { }
             Thread.Sleep(delay * 1000 + 1000);
             StopClick();
-            //sw.Stop();
         }
         void Interrupter() {
             cancellationToken.Cancel();
-            IsNotMeasuring=true;
+            IsNotMeasuring = true;
         }
         double[] ValueConvert(string oriData) {
-            if (oriData.Contains("Error")|string.IsNullOrWhiteSpace(oriData)) return null;
+            if (oriData.Contains("Error") | string.IsNullOrWhiteSpace(oriData)) return null;
             return Array.ConvertAll<string, double>(oriData.Split(','), double.Parse);
         }
 
         string GetHighSpeedData(int index) {
-            return App.WT1800.RemoteCTRL(CMD.Queries.HighSpeed_Data(index)).Replace("\n","");
+            return App.WT1800.RemoteCTRL(CMD.Queries.HighSpeed_Data(index)).Replace("\n", "");
         }
 
 
