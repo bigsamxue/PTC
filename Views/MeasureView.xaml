@@ -28,8 +28,16 @@
                 <TextBlock/>
                 <Button  Content="保存路径" Width="150" Height="50" FontFamily="{StaticResource IconFont}" FontSize="24" Command="{Binding SaveFile}" Margin="0,8,0,0" VerticalAlignment="Top"/>
                 <TextBlock/>
-                <Button  Content="开始" Width="150" Height="50" FontFamily="{StaticResource IconFont}" FontSize="24" Command="{Binding StartCommand}"/>
-                <TextBlock/>
+                <Button  Content="开始" Width="150" Height="50" FontFamily="{StaticResource IconFont}" FontSize="24" Command="{Binding StartCommand}" IsEnabled="{Binding IsNotMeasuring}"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="延时" FontFamily="{StaticResource IconFont}" FontSize="24" VerticalAlignment="Center"/>
+                    <TextBox Grid.Column="1" Text="{Binding DelaySec}" Margin="0,5,0,5" FontFamily="{StaticResource IconFont}" FontSize="24" VerticalAlignment="Center" />
+                </Grid>
+                <!--<TextBox Text="{Binding DelaySec}" Margin="0,5,0,5" FontFamily="{StaticResource IconFont}" FontSize="24" VerticalAlignment="Center" />-->
                 <Button Content="停止" Width="150" Height="50" FontFamily="{StaticResource IconFont}" FontSize="24" Command="{Binding StopCommand}"/>
                 <TextBlock/>
                 <Button Content="复位" Width="150" Height="50" FontFamily="{StaticResource IconFont}" FontSize="24" Command="{Binding ResetCommand}"/>

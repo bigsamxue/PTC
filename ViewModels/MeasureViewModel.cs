@@ -16,6 +16,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using IEC60335Develop.CMDDictionary;
+using System.Diagnostics;
 
 namespace IEC60335Develop.ViewModels {
     public class MeasureViewModel : BindableBase {
@@ -25,6 +26,19 @@ namespace IEC60335Develop.ViewModels {
             get { return _wTMeasureModel; }
             set { SetProperty(ref _wTMeasureModel, value); }
         }
+
+        private int _delaySec;
+        public int DelaySec {
+            get { return _delaySec; }
+            set { SetProperty(ref _delaySec, value); }
+        }
+
+        private bool _isNotMeasuring;
+        public bool IsNotMeasuring {
+            get { return _isNotMeasuring; }
+            set { SetProperty(ref _isNotMeasuring, value); }
+        }
+
 
         public DelegateCommand StartCommand { get; set; }
 
@@ -38,6 +52,7 @@ namespace IEC60335Develop.ViewModels {
 
         public Task TaskForGetValue { get; set; }
         public CancellationTokenSource cancellationToken { get; set; }
+        Stopwatch sw;
 
         string RelativePath;
 
@@ -82,8 +97,9 @@ namespace IEC60335Develop.ViewModels {
             Model.Series.Add(Series2);
 
             RelativePath = App.DefaultFolderPath + @"/File Folder";
-
-
+            DelaySec = 0;
+            IsNotMeasuring = true;
+            sw = new Stopwatch();
         }
 
         private void SaveFileClick() {
@@ -129,8 +145,8 @@ namespace IEC60335Develop.ViewModels {
 
             App.WT1800.RemoteCTRL(CMD.Set.HighSpeed_Stop);//解注释
             App.StopTimeCopyToReportViewModel = DateTime.Now.ToString();
-            cancellationToken.Cancel();
-
+            Interrupter();
+            IsNotMeasuring = true;
             App.CurrentListCopyToReportViewModel = WTMeasureModel.CurrentValue;
             App.PowerListCopyToReportViewModel = WTMeasureModel.PowerValue;
 
@@ -149,7 +165,7 @@ namespace IEC60335Develop.ViewModels {
             }
         }
 
-        void SetRecItemIndex() {
+        void SetReceiverItemIndex() {
             App.WT1800.RemoteCTRL(CMD.Set.HSpeed_Item("1","U", elementNum.ToString()));
             App.WT1800.RemoteCTRL(CMD.Set.HSpeed_Item("2","I", elementNum.ToString()));
             App.WT1800.RemoteCTRL(CMD.Set.HSpeed_Item("3","P", elementNum.ToString()));
@@ -157,7 +173,9 @@ namespace IEC60335Develop.ViewModels {
         }
 
         private void StartClick() {
+
             App.WT1800.RemoteCTRL(CMD.Set.HighSpeed_Start);//解注释
+            IsNotMeasuring = false;
             App.StartTimeCopyToReportViewModel = DateTime.Now.ToString();
             WTMeasureModel.VoltageValue = new List<double>();
             WTMeasureModel.CurrentValue = new List<double>();
@@ -168,8 +186,24 @@ namespace IEC60335Develop.ViewModels {
             volIndex = 1;
             curIndex = 2;
             powIndex = 3;
+            if (DelaySec != 0) {
+                sw.Reset();
+                Task.Run(()=>Delayer(DelaySec));
+            }
+
             TaskForGetValue = Task.Run(GetValue, cancellationToken.Token);
 
+        }
+        void Delayer(int delay) {
+            long timespan=delay*1000;
+            sw.Start();
+            while(sw.ElapsedMilliseconds < timespan) { }
+            StopClick();
+            sw.Stop();
+        }
+        void Interrupter() {
+            cancellationToken.Cancel();
+            IsNotMeasuring=true;
         }
         double[] ValueConvert(string oriData) {
             if (oriData.Contains("Error")|string.IsNullOrWhiteSpace(oriData)) return null;
