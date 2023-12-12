@@ -176,10 +176,10 @@ namespace IEC60335Develop.ViewModels {
                 File.Create(SavePathSorted).Close();
 
             StreamWriter sw = new StreamWriter(SavePathSorted, true, Encoding.UTF8);
-            string dataHeader = "电流,功率";
+            string dataHeader = "时间,电流,功率";
             sw.WriteLine(dataHeader);
             for (int j = 0; j < WTReportModel.PowerList.Count; j++) {
-                sw.WriteLine($"{WTReportModel.CurrentList[j]},{WTReportModel.PowerList[j]}");
+                sw.WriteLine($"{ElementsCollection[j].Timestamp},{WTReportModel.CurrentList[j]},{WTReportModel.PowerList[j]}");
             }
             sw.Flush();
             sw.Close();
