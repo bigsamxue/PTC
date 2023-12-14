@@ -31,11 +31,13 @@
                 <Button  Content="开始" Width="150" Height="50" FontFamily="{StaticResource IconFont}" FontSize="24" Command="{Binding StartCommand}" IsEnabled="{Binding IsNotMeasuring}"/>
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="0.4*"/>
+                        <ColumnDefinition Width="0.6*"/>
                         <ColumnDefinition Width="0.4*"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="延时(Min)" FontFamily="{StaticResource IconFont}" FontSize="24" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="0" Text="定时" FontFamily="{StaticResource IconFont}" FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                     <TextBox Grid.Column="1" Text="{Binding DelaySec}" Margin="0,5,0,5" FontFamily="{StaticResource IconFont}" FontSize="24" VerticalAlignment="Center" />
+                    <TextBlock Grid.Column="2" Text="Min" FontFamily="{StaticResource IconFont}" FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Right"/>
                 </Grid>
                 <!--<TextBox Text="{Binding DelaySec}" Margin="0,5,0,5" FontFamily="{StaticResource IconFont}" FontSize="24" VerticalAlignment="Center" />-->
                 <Button Content="停止" Width="150" Height="50" FontFamily="{StaticResource IconFont}" FontSize="24" Command="{Binding StopCommand}"/>
